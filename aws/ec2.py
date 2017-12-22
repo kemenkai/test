@@ -213,42 +213,42 @@ def create_instances(HostName,Ip,security_group_id,subnetid,instancetype,ami=ama
 
 
 
-host = {'web1':{'HostName':'zqlWeb1','ip':'10.2.1.11','GroupId':office_security_group_id,'SubnetId':web_a,'instancetype':'m4.xlarge'},
-        'web2':{'HostName':'zqlWeb2','ip':'10.2.2.11','GroupId':office_security_group_id,'SubnetId':web_c,'instancetype':'m4.xlarge'},
-        'admin_pnk':{'HostName':'zqlAdminPnk','ip':'10.2.1.40','GroupId':office_security_group_id,'SubnetId':web_a,'instancetype':'m4.xlarge'},
-        'admin_ex':{'HostName':'zqlAdminEx','ip':'10.2.1.41','GroupId':office_security_group_id,'SubnetId':web_a,'instancetype':'m4.xlarge'},
-        'stream1':{'HostName':'zqlStream1','ip':'10.2.1.50','GroupId':office_security_group_id,'SubnetId':web_a,'instancetype':'m4.xlarge'},
-        'stream2':{'HostName':'zqlStream2','ip':'10.2.2.50','GroupId':office_security_group_id,'SubnetId':web_c,'instancetype':'m4.xlarge'},
-        'file':{'HostName':'zqlFile','ip':'10.2.1.49','GroupId':office_security_group_id,'SubnetId':web_a,'instancetype':'m4.xlarge'},
-        'mongo':{'HostName':'zqlMongo','ip':'10.2.1.100','GroupId':office_security_group_id,'SubnetId':web_a,'instancetype':'c4.xlarge'},
-        'chat':{'HostName':'zqlChat','ip':'10.2.1.110','GroupId':public_security_group_id,'SubnetId':web_a,'instancetype':'c4.xlarge'},
-        'resource':{'HostName':'zqlResource','ip':'10.2.1.250','GroupId':public_security_group_id,'SubnetId':web_a,'instancetype':'c4.xlarge'},
-        'eng1':{'HostName':'zqlMbxEng1','ip':'10.2.10.10','GroupId':private_security_group_id,'SubnetId':mbx_a,'instancetype':'t2.xlarge'},
-        'eng2':{'HostName':'zqlMbxEng2','ip':'10.2.11.10','GroupId':private_security_group_id,'SubnetId':mbx_c,'instancetype':'t2.xlarge'},
-        'eng3':{'HostName':'zqlMbxEng3','ip':'10.2.10.11','GroupId':private_security_group_id,'SubnetId':mbx_a,'instancetype':'t2.xlarge'},
-        'mgmt1':{'HostName':'zqlMbxMgmt1','ip':'10.2.10.20','GroupId':private_security_group_id,'SubnetId':mbx_a,'instancetype':'c4.2xlarge'},
-        'mgmt2':{'HostName':'zqlMbxMgmt2','ip':'10.2.11.20','GroupId':private_security_group_id,'SubnetId':mbx_c,'instancetype':'c4.2xlarge'},
-        'priv1':{'HostName':'zqlMbxPriv1','ip':'10.2.10.30','GroupId':private_security_group_id,'SubnetId':mbx_a,'instancetype':'t2.medium'},
-        'priv2':{'HostName':'zqlMbxPriv2','ip':'10.2.11.30','GroupId':private_security_group_id,'SubnetId':mbx_c,'instancetype':'t2.medium'},
-        'rest1':{'HostName':'zqlMbxRest1','ip':'10.2.10.40','GroupId':private_security_group_id,'SubnetId':mbx_a,'instancetype':'c4.2xlarge'},
-        'rest2':{'HostName':'zqlMbxRest2','ip':'10.2.11.40','GroupId':private_security_group_id,'SubnetId':mbx_c,'instancetype':'c4.2xlarge'},
-        'pub1':{'HostName':'zqlMbxPub1','ip':'10.2.10.50','GroupId':private_security_group_id,'SubnetId':mbx_a,'instancetype':'t2.medium'},
-        'pub2':{'HostName':'zqlMbxPub1','ip':'10.2.11.50','GroupId':private_security_group_id,'SubnetId':mbx_c,'instancetype':'t2.medium'},
-        'kline1':{'HostName':'zqlMbxKline1','ip':'10.2.10.60','GroupId':private_security_group_id,'SubnetId':mbx_a,'instancetype':'t2.medium'},
-        'kline2':{'HostName':'zqlMbxKline2','ip':'10.2.11.60','GroupId':private_security_group_id,'SubnetId':mbx_c,'instancetype':'t2.medium'},
-        'user1':{'HostName':'zqlMbxUser1','ip':'10.2.10.70','GroupId':private_security_group_id,'SubnetId':mbx_a,'instancetype':'t2.medium'},
-        'agg1':{'HostName':'zqlMbxAggTrade1','ip':'10.2.10.80','GroupId':private_security_group_id,'SubnetId':mbx_a,'instancetype':'t2.medium'},
-        'agg2':{'HostName':'zqlMbxAggTrade2','ip':'10.2.11.80','GroupId':private_security_group_id,'SubnetId':mbx_c,'instancetype':'t2.medium'},
-        'rmqint1':{'HostName':'zqlMbxRmqInt1','ip':'10.2.10.90','GroupId':private_security_group_id,'SubnetId':mbx_a,'instancetype':'t2.medium'},
-        'rmqint2':{'HostName':'zqlMbxRmqInt2','ip':'10.2.11.90','GroupId':private_security_group_id,'SubnetId':mbx_c,'instancetype':'t2.medium'},
-        'rmqout1':{'HostName':'zqlMbxRmqOut1','ip':'10.2.10.100','GroupId':private_security_group_id,'SubnetId':mbx_a,'instancetype':'t2.medium'},
-        'rmqout2':{'HostName':'zqlMbxRmqOut2','ip':'10.2.11.100','GroupId':private_security_group_id,'SubnetId':mbx_c,'instancetype':'t2.medium'},
-        'rmqha1':{'HostName':'zqlMbxRmqHa1','ip':'10.2.10.110','GroupId':private_security_group_id,'SubnetId':mbx_a,'instancetype':'t2.medium'},
-        'rmqha2':{'HostName':'zqlMbxRmqHa2','ip':'10.2.11.110','GroupId':private_security_group_id,'SubnetId':mbx_c,'instancetype':'t2.medium'},
-        'http1':{'HostName':'zqlMbxHttp1','ip':'10.2.10.120','GroupId':public_security_group_id,'SubnetId':mbx_a,'instancetype':'t2.medium'},
-        'http2':{'HostName':'zqlMbxHttp2','ip':'10.2.11.120','GroupId':public_security_group_id,'SubnetId':mbx_c,'instancetype':'t2.medium'},
-        'wss1':{'HostName':'zqlMbxWss1','ip':'10.2.10.130','GroupId':public_security_group_id,'SubnetId':mbx_a,'instancetype':'t2.large'},
-        'wss2':{'HostName':'zqlMbxWss2','ip':'10.2.11.130','GroupId':public_security_group_id,'SubnetId':mbx_c,'instancetype':'t2.large'},
+host = {'web1':{'HostName':'Web1','ip':'1.11','GroupId':office_security_group_id,'SubnetId':web_a,'instancetype':'m4.xlarge'},
+        'web2':{'HostName':'Web2','ip':'2.11','GroupId':office_security_group_id,'SubnetId':web_c,'instancetype':'m4.xlarge'},
+        'admin_pnk':{'HostName':'AdminPnk','ip':'1.40','GroupId':office_security_group_id,'SubnetId':web_a,'instancetype':'m4.xlarge'},
+        'admin_ex':{'HostName':'AdminEx','ip':'1.41','GroupId':office_security_group_id,'SubnetId':web_a,'instancetype':'m4.xlarge'},
+        'stream1':{'HostName':'Stream1','ip':'1.50','GroupId':office_security_group_id,'SubnetId':web_a,'instancetype':'m4.xlarge'},
+        'stream2':{'HostName':'Stream2','ip':'2.50','GroupId':office_security_group_id,'SubnetId':web_c,'instancetype':'m4.xlarge'},
+        'file':{'HostName':'File','ip':'1.49','GroupId':office_security_group_id,'SubnetId':web_a,'instancetype':'m4.xlarge'},
+        'mongo':{'HostName':'Mongo','ip':'1.100','GroupId':office_security_group_id,'SubnetId':web_a,'instancetype':'c4.xlarge'},
+        'chat':{'HostName':'Chat','ip':'1.110','GroupId':public_security_group_id,'SubnetId':web_a,'instancetype':'c4.xlarge'},
+        'resource':{'HostName':'Resource','ip':'1.250','GroupId':public_security_group_id,'SubnetId':web_a,'instancetype':'c4.xlarge'},
+        'eng1':{'HostName':'MbxEng1','ip':'10.10','GroupId':private_security_group_id,'SubnetId':mbx_a,'instancetype':'t2.xlarge'},
+        'eng2':{'HostName':'MbxEng2','ip':'11.10','GroupId':private_security_group_id,'SubnetId':mbx_c,'instancetype':'t2.xlarge'},
+        'eng3':{'HostName':'MbxEng3','ip':'10.11','GroupId':private_security_group_id,'SubnetId':mbx_a,'instancetype':'t2.xlarge'},
+        'mgmt1':{'HostName':'MbxMgmt1','ip':'10.20','GroupId':private_security_group_id,'SubnetId':mbx_a,'instancetype':'c4.2xlarge'},
+        'mgmt2':{'HostName':'MbxMgmt2','ip':'11.20','GroupId':private_security_group_id,'SubnetId':mbx_c,'instancetype':'c4.2xlarge'},
+        'priv1':{'HostName':'MbxPriv1','ip':'10.30','GroupId':private_security_group_id,'SubnetId':mbx_a,'instancetype':'t2.medium'},
+        'priv2':{'HostName':'MbxPriv2','ip':'11.30','GroupId':private_security_group_id,'SubnetId':mbx_c,'instancetype':'t2.medium'},
+        'rest1':{'HostName':'MbxRest1','ip':'10.40','GroupId':private_security_group_id,'SubnetId':mbx_a,'instancetype':'c4.2xlarge'},
+        'rest2':{'HostName':'MbxRest2','ip':'11.40','GroupId':private_security_group_id,'SubnetId':mbx_c,'instancetype':'c4.2xlarge'},
+        'pub1':{'HostName':'MbxPub1','ip':'10.50','GroupId':private_security_group_id,'SubnetId':mbx_a,'instancetype':'t2.medium'},
+        'pub2':{'HostName':'MbxPub1','ip':'11.50','GroupId':private_security_group_id,'SubnetId':mbx_c,'instancetype':'t2.medium'},
+        'kline1':{'HostName':'MbxKline1','ip':'10.60','GroupId':private_security_group_id,'SubnetId':mbx_a,'instancetype':'t2.medium'},
+        'kline2':{'HostName':'MbxKline2','ip':'11.60','GroupId':private_security_group_id,'SubnetId':mbx_c,'instancetype':'t2.medium'},
+        'user1':{'HostName':'MbxUser1','ip':'10.70','GroupId':private_security_group_id,'SubnetId':mbx_a,'instancetype':'t2.medium'},
+        'agg1':{'HostName':'MbxAggTrade1','ip':'10.80','GroupId':private_security_group_id,'SubnetId':mbx_a,'instancetype':'t2.medium'},
+        'agg2':{'HostName':'MbxAggTrade2','ip':'11.80','GroupId':private_security_group_id,'SubnetId':mbx_c,'instancetype':'t2.medium'},
+        'rmqint1':{'HostName':'MbxRmqInt1','ip':'10.90','GroupId':private_security_group_id,'SubnetId':mbx_a,'instancetype':'t2.medium'},
+        'rmqint2':{'HostName':'MbxRmqInt2','ip':'11.90','GroupId':private_security_group_id,'SubnetId':mbx_c,'instancetype':'t2.medium'},
+        'rmqout1':{'HostName':'MbxRmqOut1','ip':'10.100','GroupId':private_security_group_id,'SubnetId':mbx_a,'instancetype':'t2.medium'},
+        'rmqout2':{'HostName':'MbxRmqOut2','ip':'11.100','GroupId':private_security_group_id,'SubnetId':mbx_c,'instancetype':'t2.medium'},
+        'rmqha1':{'HostName':'MbxRmqHa1','ip':'10.110','GroupId':private_security_group_id,'SubnetId':mbx_a,'instancetype':'t2.medium'},
+        'rmqha2':{'HostName':'MbxRmqHa2','ip':'11.110','GroupId':private_security_group_id,'SubnetId':mbx_c,'instancetype':'t2.medium'},
+        'http1':{'HostName':'MbxHttp1','ip':'10.120','GroupId':public_security_group_id,'SubnetId':mbx_a,'instancetype':'t2.medium'},
+        'http2':{'HostName':'MbxHttp2','ip':'11.120','GroupId':public_security_group_id,'SubnetId':mbx_c,'instancetype':'t2.medium'},
+        'wss1':{'HostName':'MbxWss1','ip':'10.130','GroupId':public_security_group_id,'SubnetId':mbx_a,'instancetype':'t2.large'},
+        'wss2':{'HostName':'MbxWss2','ip':'11.130','GroupId':public_security_group_id,'SubnetId':mbx_c,'instancetype':'t2.large'},
         }
 
 # create_instances('bnbDockerServer','172.16.255.15','sg-8adf98ec','subnet-01fc3048','m4.xlarge',ami='ami-050bcf63',disk_size=1024)
@@ -293,9 +293,6 @@ host = {'web1':{'HostName':'zqlWeb1','ip':'10.2.1.11','GroupId':office_security_
 
 # 区块链服务器购买
 # create_instances('bnbBTG','172.16.5.10','sg-8adf98ec','subnet-5b53ff12','m4.4xlarge')
-# create_instances('zqlBTC','10.2.20.5',office_security_group_id,block_a,'m4.4xlarge',ami=btc_ami,disk_size=1024)
-# create_instances('zqlETH','10.2.20.6',office_security_group_id,block_a,'m4.xlarge',ami=eth_ami,disk_size=1024)
-# create_instances('zqlOmn','10.2.20.4',office_security_group_id,block_a,'c4.2xlarge',ami=omn_ami,disk_size=1024)
 # create_instances('bnbNEBL','172.16.5.11',bnb_office_security_group_id,bnb_blcok_nat,'c4.xlarge',ami=centos7_ami,disk_size=1024)
 
 
@@ -457,10 +454,10 @@ def terminate_instances(instancesid=None):
 #         SubnetId=web_a,
 #         DisableApiTermination=False,
 #         EbsOptimized=True,
-#         PrivateIpAddress='10.2.1.11',
+#         PrivateIpAddress='1.11',
 #         TagSpecifications=[
-#             {'ResourceType': 'volume','Tags': [{'Key': 'Name', 'Value': 'zqlWeb1'}]},
-#             {'ResourceType': 'instance','Tags': [{'Key': 'Name', 'Value': 'zqlWeb1'}]}
+#             {'ResourceType': 'volume','Tags': [{'Key': 'Name', 'Value': 'Web1'}]},
+#             {'ResourceType': 'instance','Tags': [{'Key': 'Name', 'Value': 'Web1'}]}
 #         ]
 #     )
 #
