@@ -34,13 +34,15 @@ bnb_launchpad_a = 'subnet-2abc2c63'
 bnb_launchpad_c = 'subnet-397ab462'
 bnb_kr_vpn1 = 'subnet-04d40d6c'
 bnb_kr_vpn2 = 'subnet-7846b534'
+bnb_mkm_a = 'subnet-48c1a401'
+bnb_mkm_c = 'subnet-2a26f571'
 
 
 private_security_group_id = 'sg-128e646b'
 public_security_group_id = 'sg-dd8c66a4'
 office_security_group_id = 'sg-958f65ec'
 resource_security_group_id = 'sg-478a603e'
-bnb_office_security_group_id = 'sg-76de9910'
+bnb_office_security_group_id = 'sg-8adf98ec'
 bnb_public_security_group_id = 'sg-76de9910'
 bnb_private_security_group_id = 'sg-c3d295a5'
 bnb_kr_public_security_group_id = 'sg-86e34ced'
@@ -55,10 +57,12 @@ omn_ami = 'ami-a853e1ce'
 eth_ami = 'ami-c410b8a2'
 kr_proxy_ami = 'ami-3d62c453'
 win_2016 = 'ami-4325fa25'
+mkm_ami = 'ami-2ef47c48'
+zookeeper_ami = 'ami-d72ea5b1'
 
 
 # 创建新的服务器
-def create_instances(HostName,Ip,security_group_id,subnetid,instancetype,ami=amazon_ami,disk_size=100):
+def create_instances(HostName,Ip,security_group_id,subnetid,instancetype,ami=amazon_ami,disk_size=100,public_ip_status=False):
     # session = boto3.Session(profile_name='kehu')
     session = boto3.Session(profile_name='default')
     # session = boto3.Session(profile_name='bnbkr')
@@ -114,7 +118,7 @@ def create_instances(HostName,Ip,security_group_id,subnetid,instancetype,ami=ama
             )
 
             print('{}服务器创建成功！！！'.format(HostName))
-            print(response)
+            print(response, HostName, Ip, security_group_id, subnetid, instancetype)
             return response,HostName,Ip,security_group_id,subnetid,instancetype
         elif ami == win_2016:
             response = session_ec2_resource.create_instances(
@@ -158,6 +162,54 @@ def create_instances(HostName,Ip,security_group_id,subnetid,instancetype,ami=ama
             return response, HostName, Ip, security_group_id, subnetid, instancetype
 
         else:
+            # response = session_ec2_resource.create_instances(
+            #     # DryRun=True,
+            #     BlockDeviceMappings=[
+            #         # {
+            #         #     'DeviceName': '/dev/xvda',
+            #         #     'Ebs': {
+            #         #         # 'Encrypted': False,
+            #         #         'DeleteOnTermination': True,
+            #         #         # 'SnapshotId': 'snap-00f63af2b938a9ed8',
+            #         #         'VolumeSize': 40,
+            #         #         'VolumeType': 'gp2'
+            #         #     },
+            #         # },
+            #         {
+            #             'DeviceName': '/dev/sdb',
+            #             'Ebs': {
+            #                 # 'Encrypted': False,
+            #                 'DeleteOnTermination': True,
+            #                 'VolumeSize': disk_size,
+            #                 'VolumeType': 'gp2'
+            #             },
+            #         }
+            #     ],
+            #     ImageId=ami,
+            #     InstanceType=instancetype,
+            #     KeyName='bnbJumpServerRoot',
+            #     MaxCount=1,
+            #     MinCount=1,
+            #     Monitoring={'Enabled': True},
+            #     SecurityGroupIds=[security_group_id],
+            #     SubnetId=subnetid,
+            #     DisableApiTermination=True,
+            #     # EbsOptimized = True,
+            #     PrivateIpAddress=Ip,
+            #     TagSpecifications=[
+            #         {
+            #             'ResourceType': 'volume',
+            #             'Tags': [{'Key': 'Name', 'Value': HostName}]},
+            #         {
+            #             'ResourceType': 'instance',
+            #             'Tags': [{'Key': 'Name', 'Value': HostName}]
+            #         }
+            #     ]
+            # )
+            #
+            # print('{}服务器创建成功！！！'.format(HostName))
+            # print(response[0],HostName,Ip,security_group_id,subnetid,instancetype)
+            # return response[0],HostName,Ip,security_group_id,subnetid,instancetype
             response = session_ec2_resource.create_instances(
                 # DryRun=True,
                 BlockDeviceMappings=[
@@ -187,11 +239,22 @@ def create_instances(HostName,Ip,security_group_id,subnetid,instancetype,ami=ama
                 MaxCount=1,
                 MinCount=1,
                 Monitoring={'Enabled': True},
-                SecurityGroupIds=[security_group_id],
-                SubnetId=subnetid,
+                # SecurityGroupIds=[security_group_id],
+                # SubnetId=subnetid,
                 DisableApiTermination=True,
                 # EbsOptimized = True,
-                PrivateIpAddress=Ip,
+                # PrivateIpAddress=Ip,
+                NetworkInterfaces=[
+                    {
+                        'AssociatePublicIpAddress': public_ip_status,
+                        'DeleteOnTermination': True,
+                        # 'Description': 'publicIP',
+                        'DeviceIndex': 0,
+                        'PrivateIpAddress': Ip,
+                        'SubnetId': subnetid,
+                        'Groups': [security_group_id]
+                    },
+                ],
                 TagSpecifications=[
                     {
                         'ResourceType': 'volume',
@@ -204,8 +267,8 @@ def create_instances(HostName,Ip,security_group_id,subnetid,instancetype,ami=ama
             )
 
             print('{}服务器创建成功！！！'.format(HostName))
-            print(response,HostName,Ip,security_group_id,subnetid,instancetype)
-            return response,HostName,Ip,security_group_id,subnetid,instancetype
+            print(response[0],HostName,Ip,security_group_id,subnetid,instancetype)
+            return response[0],HostName,Ip,security_group_id,subnetid,instancetype
 
     except ClientError as e:
         print('{}服务器创建失败！！！'.format(HostName))
@@ -309,11 +372,23 @@ host = {'web1':{'HostName':'Web1','ip':'1.11','GroupId':office_security_group_id
 # create_instances('bnbLog9','172.16.12.14','sg-8adf98ec',log_c,'r4.4xlarge',ami='ami-ce239fa8',)
 # create_instances('bnbLog10','172.16.11.15','sg-8adf98ec',log_a,'r4.4xlarge',ami='ami-ce239fa8',)
 
-
+# Mkm服务器购买
+create_instances('bnbMkm1','172.16.13.11',bnb_office_security_group_id,bnb_mkm_a,'m4.xlarge',ami=mkm_ami,disk_size=2048,public_ip_status=True)
+create_instances('bnbMkm2','172.16.14.11',bnb_office_security_group_id,bnb_mkm_c,'m4.xlarge',ami=mkm_ami,disk_size=2048,public_ip_status=True)
+create_instances('bnbMkm3','172.16.13.12',bnb_office_security_group_id,bnb_mkm_a,'m4.xlarge',ami=mkm_ami,disk_size=2048,public_ip_status=True)
+create_instances('bnbMkm4','172.16.14.12',bnb_office_security_group_id,bnb_mkm_c,'m4.xlarge',ami=mkm_ami,disk_size=2048,public_ip_status=True)
+create_instances('bnbMkm5','172.16.13.13',bnb_office_security_group_id,bnb_mkm_a,'m4.xlarge',ami=mkm_ami,disk_size=2048,public_ip_status=True)
+create_instances('bnbMkm6','172.16.14.13',bnb_office_security_group_id,bnb_mkm_c,'m4.xlarge',ami=mkm_ami,disk_size=2048,public_ip_status=True)
+create_instances('bnbMkm7','172.16.13.14',bnb_office_security_group_id,bnb_mkm_a,'m4.xlarge',ami=mkm_ami,disk_size=2048,public_ip_status=True)
+create_instances('bnbMkm8','172.16.14.14',bnb_office_security_group_id,bnb_mkm_c,'m4.xlarge',ami=mkm_ami,disk_size=2048,public_ip_status=True)
+create_instances('bnbMkm9','172.16.13.15',bnb_office_security_group_id,bnb_mkm_a,'m4.xlarge',ami=mkm_ami,disk_size=2048,public_ip_status=True)
+create_instances('bnbMkm10','172.16.14.15',bnb_office_security_group_id,bnb_mkm_c,'m4.xlarge',ami=mkm_ami,disk_size=2048,public_ip_status=True)
+create_instances('bnbZookeeper1','172.16.13.250',bnb_office_security_group_id,bnb_mkm_a,'t2.xlarge',ami=zookeeper_ami)
 
 # 临时购买服务器
 # create_instances('Test','172.16.0.100',bnb_office_security_group_id,bnb_test,'t2.2xlarge',ami=win_2016)
 # create_instances('bnbWAVES','172.16.5.13',bnb_office_security_group_id,bnb_blcok_nat,'m4.xlarge',ami=ubuntu16_ami,disk_size=500)
+
 
 
 
@@ -343,6 +418,29 @@ def modify_instance_attribute(instanceid=None,status=True):
 # modify_instance_attribute(instanceid="i-0575ea20281427039",status=False)
 
 
+# 终止服务器
+def terminate_instances(instancesid=None):
+    try:
+        session = boto3.Session(profile_name='default')
+        session_ec2_client = session.client('ec2')
+
+        response = session_ec2_client.terminate_instances(
+
+            InstanceIds = [
+                instancesid
+            ]
+        )
+
+        print(response)
+
+    except ClientError as e:
+        print(e)
+
+# modify_instance_attribute(instanceid="i-03e34f6c144b2e07a",status=False)
+# terminate_instances(instancesid='i-03e34f6c144b2e07a')
+
+
+
 # 查看VPC信息
 def describe_instances(vpcid=None):
     try:
@@ -364,28 +462,6 @@ def describe_instances(vpcid=None):
         print(e)
 
 # describe_instances(vpcid=bnb_tokyo_vpc_id)
-
-# 终止服务器
-def terminate_instances(instancesid=None):
-    try:
-        session = boto3.Session(profile_name='default')
-        session_ec2_client = session.client('ec2')
-
-        response = session_ec2_client.terminate_instances(
-
-            InstanceIds = [
-                instancesid
-            ]
-        )
-
-        print(response)
-
-    except ClientError as e:
-        print(e)
-
-#terminate_instances(instancesid='i-0c11cfe44c09e0ac8')
-# terminate_instances(instancesid='i-0575ea20281427039')
-
 
 # modify_instance_attribute(instanceid='i-0c11cfe44c09e0ac8',status=False)
 # aaa = describe_instances(vpcid='vpc-08281e6c')
