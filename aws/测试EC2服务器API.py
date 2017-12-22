@@ -162,54 +162,6 @@ def create_instances(HostName,Ip,security_group_id,subnetid,instancetype,ami=ama
             return response, HostName, Ip, security_group_id, subnetid, instancetype
 
         else:
-            # response = session_ec2_resource.create_instances(
-            #     # DryRun=True,
-            #     BlockDeviceMappings=[
-            #         # {
-            #         #     'DeviceName': '/dev/xvda',
-            #         #     'Ebs': {
-            #         #         # 'Encrypted': False,
-            #         #         'DeleteOnTermination': True,
-            #         #         # 'SnapshotId': 'snap-00f63af2b938a9ed8',
-            #         #         'VolumeSize': 40,
-            #         #         'VolumeType': 'gp2'
-            #         #     },
-            #         # },
-            #         {
-            #             'DeviceName': '/dev/sdb',
-            #             'Ebs': {
-            #                 # 'Encrypted': False,
-            #                 'DeleteOnTermination': True,
-            #                 'VolumeSize': disk_size,
-            #                 'VolumeType': 'gp2'
-            #             },
-            #         }
-            #     ],
-            #     ImageId=ami,
-            #     InstanceType=instancetype,
-            #     KeyName='bnbJumpServerRoot',
-            #     MaxCount=1,
-            #     MinCount=1,
-            #     Monitoring={'Enabled': True},
-            #     SecurityGroupIds=[security_group_id],
-            #     SubnetId=subnetid,
-            #     DisableApiTermination=True,
-            #     # EbsOptimized = True,
-            #     PrivateIpAddress=Ip,
-            #     TagSpecifications=[
-            #         {
-            #             'ResourceType': 'volume',
-            #             'Tags': [{'Key': 'Name', 'Value': HostName}]},
-            #         {
-            #             'ResourceType': 'instance',
-            #             'Tags': [{'Key': 'Name', 'Value': HostName}]
-            #         }
-            #     ]
-            # )
-            #
-            # print('{}服务器创建成功！！！'.format(HostName))
-            # print(response[0],HostName,Ip,security_group_id,subnetid,instancetype)
-            # return response[0],HostName,Ip,security_group_id,subnetid,instancetype
             response = session_ec2_resource.create_instances(
                 # DryRun=True,
                 BlockDeviceMappings=[
