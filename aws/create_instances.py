@@ -11,7 +11,6 @@ def create_instances(HostName,Ip,security_group_id,subnetid,instancetype,ami=ami
     session_ec2_resource = session.resource('ec2')
 
     try:
-
         if ami == ami.amazon_ami:
             response = session_ec2_resource.create_instances(
                 # DryRun=True,

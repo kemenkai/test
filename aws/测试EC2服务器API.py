@@ -1,10 +1,11 @@
 # -*- coding: UTF-8 -*-
-# import boto3
-# from botocore.exceptions import ClientError
 from aws import ami
+from aws import create_instances
+from aws import describe_instances
+from aws import modify_instance_attribute
 from aws import security_group
 from aws import subnet
-from aws import create_instances
+from aws import terminate_instances
 import time
 
 
@@ -129,8 +130,6 @@ bnb_tokyo_vpc_id = 'vpc-08281e6c'
 # 临时购买服务器
 # create_instances('Test','172.16.0.100',bnb_office_security_group_id,bnb_test,'t2.2xlarge',ami=win_2016)
 # create_instances('bnbWAVES','172.16.5.13',bnb_office_security_group_id,bnb_blcok_nat,'m4.xlarge',ami=ubuntu16_ami,disk_size=500)
-
-# if __name__ == '__main__':
 # create_instances('zqlInnerhttp1','10.2.10.140',zql_private_security_group_id,zql_mbx_a,'t2.medium',disk_size=1024,profile_name="kehu")
 # create_instances('zqlInnerhttp2','10.2.11.140',zql_private_security_group_id,zql_mbx_c,'t2.medium',disk_size=1024,profile_name="kehu")
 # create_instances('daeInnerhttp1','10.1.10.140',dae_private_security_group_id,dae_mbx_a,'t2.medium',disk_size=1024,profile_name="kehu")
