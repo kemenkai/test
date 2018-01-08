@@ -134,3 +134,6 @@ bnb_tokyo_vpc_id = 'vpc-08281e6c'
 # create_instances('zqlInnerhttp2','10.2.11.140',zql_private_security_group_id,zql_mbx_c,'t2.medium',disk_size=1024,profile_name="kehu")
 # create_instances('daeInnerhttp1','10.1.10.140',dae_private_security_group_id,dae_mbx_a,'t2.medium',disk_size=1024,profile_name="kehu")
 # create_instances.create_instances('daeInnerhttp2','10.1.11.140',security_group.dae_private_security_group_id,subnet.dae_mbx_a,'t2.medium',disk_size=1024,profile_name="kehu")
+
+
+aa=1
