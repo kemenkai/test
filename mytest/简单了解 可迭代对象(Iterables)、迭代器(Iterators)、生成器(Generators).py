@@ -1,3 +1,8 @@
+#####
+#
+#内容来自：http://www.yulongjun.com/python/20170510-07-iterables-interators-generators-verbose/
+#
+#####
 #可迭代对象（iterable）
 #列表、元组、集合、字典、字符串、bytes、bytearray、生成器（generator）、range等，都是可迭代对象（iterable）。
 #简单的可以这样理解：能用for...in循环来迭代、能用in成员运算符的，都是可迭代对象。

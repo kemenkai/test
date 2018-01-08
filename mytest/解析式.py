@@ -1,3 +1,8 @@
+#####
+#
+#内容来自：http://www.yulongjun.com/python/20170510-07-iterables-interators-generators-verbose/
+#
+#####
 list1_1 = []
 for i in range(6):
     list1_1.append(i)
