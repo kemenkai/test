@@ -1,6 +1,3 @@
-import time
-from functools import wraps
-
 num = 1000000
 for i in range(2,num):
     for a in range(2,i-1):
