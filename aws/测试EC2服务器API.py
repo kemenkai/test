@@ -17,7 +17,7 @@ import time
 # 80 : stopped
 
 bnb_tokyo_vpc_id = 'vpc-08281e6c'
-
+dae_tokyo_vpc_id = ''
 # host = {'web1':{'HostName':'Web1','ip':'1.11','GroupId':office_security_group_id,'SubnetId':web_a,'instancetype':'m4.xlarge'},
 #         'web2':{'HostName':'Web2','ip':'2.11','GroupId':office_security_group_id,'SubnetId':web_c,'instancetype':'m4.xlarge'},
 #         'admin_pnk':{'HostName':'AdminPnk','ip':'1.40','GroupId':office_security_group_id,'SubnetId':web_a,'instancetype':'m4.xlarge'},
@@ -126,6 +126,10 @@ bnb_tokyo_vpc_id = 'vpc-08281e6c'
 # create_instances('bnbMkm9','172.16.13.15',bnb_office_security_group_id,bnb_mkm_a,'m4.xlarge',ami=mkm_ami,disk_size=2048,public_ip_status=True)
 # create_instances('bnbMkm10','172.16.14.15',bnb_office_security_group_id,bnb_mkm_c,'m4.xlarge',ami=mkm_ami,disk_size=2048,public_ip_status=True)
 # create_instances('bnbZookeeper1','172.16.13.250',bnb_office_security_group_id,bnb_mkm_a,'t2.xlarge',ami=zookeeper_ami)
+
+# info服务器购买
+create_instances.create_instances('daeInfo1','172.16.13.10',security_group.dae_private_security_group_id,subnet.dae_info_a,'t2.xlarge',disk_size=200)
+
 
 # 临时购买服务器
 # create_instances('Test','172.16.0.100',bnb_office_security_group_id,bnb_test,'t2.2xlarge',ami=win_2016)

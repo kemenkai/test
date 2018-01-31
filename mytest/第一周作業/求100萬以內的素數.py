@@ -1,4 +1,4 @@
-num = 10000
+num = 1000000
 num2 = 0
 for i in range(2,num):
     for a in range(2,int(i ** 0.5)+1):
