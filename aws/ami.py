@@ -1,4 +1,4 @@
-amazon_ami = 'ami-2803ac4e'
+amazon_ami16 = 'ami-2803ac4e'
 http_ami = 'ami-23a16245'
 wss_ami = 'ami-bffd39d9'
 ubuntu16_ami = 'ami-050bcf63'
