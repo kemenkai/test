@@ -1,9 +1,11 @@
 import boto3
 from botocore.exceptions import ClientError
-from aws import ami
+from aws import local_ami
+
+
 
 # 创建新的服务器
-def create_instances(HostName,Ip,security_group_id,subnetid,instancetype,ami=ami.amazon_ami,disk_size=100,public_ip_status=False,profile_name="default"):
+def create_instances(HostName, Ip, security_group_id, subnetid, instancetype, ami=local_ami.amazon_ami1, disk_size=100, public_ip_status=False, profile_name="default"):
     # session = boto3.Session(profile_name='kehu')
     session = boto3.Session(profile_name=profile_name)
     # session = boto3.Session(profile_name='bnbkr')
@@ -11,7 +13,7 @@ def create_instances(HostName,Ip,security_group_id,subnetid,instancetype,ami=ami
     session_ec2_resource = session.resource('ec2')
 
     try:
-        if ami == ami.amazon_ami:
+        if ami == local_ami.amazon_ami1:
             response = session_ec2_resource.create_instances(
                 # DryRun=True,
                 BlockDeviceMappings = [
@@ -60,7 +62,7 @@ def create_instances(HostName,Ip,security_group_id,subnetid,instancetype,ami=ami
             print('{}服务器创建成功！！！'.format(HostName))
             print(response, HostName, Ip, security_group_id, subnetid, instancetype)
             return response,HostName,Ip,security_group_id,subnetid,instancetype
-        elif ami == ami.win_2016:
+        elif ami == local_ami.win_2016:
             response = session_ec2_resource.create_instances(
                 # DryRun=True,
                 BlockDeviceMappings=[
