@@ -1,3 +1,7 @@
+import boto3
+from aws import check_vpc
+from botocore.exceptions import ClientError
+
 zql_private_security_group_id = 'sg-128e646b'
 zql_public_security_group_id = 'sg-dd8c66a4'
 zql_office_security_group_id = 'sg-958f65ec'
@@ -10,3 +14,59 @@ dae_private_security_group_id = 'sg-7fcdc719'
 dae_public_security_group_id = 'sg-a1cdc7c7'
 dae_office_security_group_id = 'sg-53c1cb35'
 dae_resource_security_group_id = 'sg-56ced430'
+
+vpc_id = check_vpc.local_vpc()
+
+def check_Subnets(args):
+    session = boto3.Session(profile_name='kehu')
+    client = session.client('ec2')
+    response = client.describe_subnets(
+        Filters=[
+            {
+                'Name':'vpc-id',
+                'Values':[
+                    vpc_id,
+                ],
+            }  ,
+        ],
+    )
+    Subnets_list = response['Subnets']
+
+    for num in range(len(Subnets_list)):
+        _prinvate_Subnets = Subnets_list[num]
+        Subnets_Zone =_prinvate_Subnets['AvailabilityZone']
+        Subnets_Name = _prinvate_Subnets['Tags'][0]['Value']
+        Subnets_Id = _prinvate_Subnets['SubnetId']
+        Subnets_CidrBlock = _prinvate_Subnets['CidrBlock']
+        # print(_prinvate_Subnets)
+        print("{} Subnets_Name:{}, Subnets_CidrBlock:{}, Subnets_Zone:{}".format(num,Subnets_Name,Subnets_CidrBlock,Subnets_Zone))
+        print("------------------------")
+
+    subnets_id = []
+    subnets_id = input("请选择需要的子网，多个子网使用 '|' 符号隔开：")
+    if subnets_id.rfind('|') > 0:
+        subnets_id = subnets_id.split('|')
+        # print(subnets_id)
+        print("您选择的子网为：")
+        for num in range(len(subnets_id)):
+            subnets_id_num = int(subnets_id[num])
+            _prinvate_Subnets = Subnets_list[subnets_id_num]
+            Subnets_Zone = _prinvate_Subnets['AvailabilityZone']
+            Subnets_Name = _prinvate_Subnets['Tags'][0]['Value']
+            Subnets_Id = _prinvate_Subnets['SubnetId']
+            Subnets_CidrBlock = _prinvate_Subnets['CidrBlock']
+            print("{} {}".format(Subnets_Name,Subnets_CidrBlock))
+    else:
+        subnets_id = int(subnets_id)
+        _prinvate_Subnets = Subnets_list[subnets_id]
+        Subnets_Zone = _prinvate_Subnets['AvailabilityZone']
+        Subnets_Name = _prinvate_Subnets['Tags'][0]['Value']
+        Subnets_Id = _prinvate_Subnets['SubnetId']
+        Subnets_CidrBlock = _prinvate_Subnets['CidrBlock']
+        print("您选择的子网为：")
+        print("{} {}".format(Subnets_Name, Subnets_CidrBlock))
+
+
+
+# print(check_Subnets(vpc_id))
+check_Subnets(vpc_id)

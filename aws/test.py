@@ -1,23 +1,32 @@
 import boto3
+from aws import check_vpc
 from botocore.exceptions import ClientError
 
-session = boto3.Session(profile_name='kehu')
-session_ec2 = session.resource('ec2')
-security_group = session_ec2.SecurityGroup('sg-ed799194')
-security_group.create_tags(
-    Tags=[
-        {
-            'Key': 'Name',
-            'Value': 'zqlPublicAll'
-        }
-    ]
-)
+vpc_id = check_vpc.local_vpc()
+
+def check_Subnets(args):
+    session = boto3.Session(profile_name='kehu')
+    client = session.client('ec2')
+    response = client.describe_subnets(
+        Filters=[
+            {
+                'Name':'vpc-id',
+                'Values':[
+                    vpc_id,
+                ],
+            }  ,
+        ],
+    )
+
+    for num in range(len(response['Subnets'])):
+        _prinvate_Subnets = response['Subnets'][num]
+        Subnets_Zone =_prinvate_Subnets['AvailabilityZone']
+        Subnets_Name = _prinvate_Subnets['Tags'][0]['Value']
+        Subnets_Id = _prinvate_Subnets['SubnetId']
+        Subnets_CidrBlock = _prinvate_Subnets['CidrBlock']
+        # print(_prinvate_Subnets)
+        print("Subnets_Name:{},Subnets_Id:{},Subnets_CidrBlock:{},Subnets_Zone:{}\n".format(Subnets_Name,Subnets_Id,Subnets_CidrBlock,Subnets_Zone))
 
 
-# try:
-#     response = session_ec2.update_security_group_rule_descriptions_egress(
-#         GroupId='sg-ed799194',
-#
-#     )
-# except ClientError as e:
-#     print(e)
+# print(check_Subnets(vpc_id))
+check_Subnets(vpc_id)
