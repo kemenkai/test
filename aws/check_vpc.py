@@ -2,7 +2,8 @@ import boto3
 from botocore.exceptions import ClientError
 import sys
 
-vpc_dict = {"daeVPC":"vpc-806975e4","zqlVPC":"vpc-d055b9b7","bnbVPC":"vpc-08281e6c"}
+
+vpc_dict = {}
 
 def local_vpc():
     _private_list = []

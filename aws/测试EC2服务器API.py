@@ -19,10 +19,9 @@ import time
 
 bnb_tokyo_vpc_id = check_vpc.local_vpc()
 
-# security = security_group.check_Subnets(profile_name="kehu",vpc_id=bnb_tokyo_vpc_id)
-security_id = security_group.check_Subnets(local_profile_name="kehu",local_vpc_id=bnb_tokyo_vpc_id)
-print(security_id)
-# bnb_tokyo_vpc_id = 'vpc-08281e6c'
+security_id = subnet.check_Subnets(local_profile_name="kehu",local_vpc_id=bnb_tokyo_vpc_id)
+
+
 # dae_tokyo_vpc_id = ''
 # host = {'web1':{'HostName':'Web1','ip':'1.11','GroupId':office_security_group_id,'SubnetId':web_a,'instancetype':'m4.xlarge'},
 #         'web2':{'HostName':'Web2','ip':'2.11','GroupId':office_security_group_id,'SubnetId':web_c,'instancetype':'m4.xlarge'},
