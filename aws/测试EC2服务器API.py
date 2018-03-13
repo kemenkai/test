@@ -19,7 +19,7 @@ import time
 
 bnb_tokyo_vpc_id = check_vpc.local_vpc()
 
-security_id = subnet.check_Subnets(local_profile_name="kehu",local_vpc_id=bnb_tokyo_vpc_id)
+security_id = subnet.check_Subnets(local_profile_name="",local_vpc_id=bnb_tokyo_vpc_id)
 
 
 # dae_tokyo_vpc_id = ''
