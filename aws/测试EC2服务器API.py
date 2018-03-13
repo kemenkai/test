@@ -1,11 +1,12 @@
 # -*- coding: UTF-8 -*-
-from aws import local_ami
-from aws import create_instances
-from aws import describe_instances
-from aws import modify_instance_attribute
-from aws import security_group
-from aws import subnet
-from aws import terminate_instances
+import local_ami
+import create_instances
+import describe_instances
+import modify_instance_attribute
+import security_group
+import subnet
+import terminate_instances
+import check_vpc
 import time
 
 
@@ -16,7 +17,12 @@ import time
 # 64 : stopping
 # 80 : stopped
 
-bnb_tokyo_vpc_id = 'vpc-08281e6c'
+bnb_tokyo_vpc_id = check_vpc.local_vpc()
+
+# security = security_group.check_Subnets(profile_name="kehu",vpc_id=bnb_tokyo_vpc_id)
+security_id = security_group.check_Subnets(local_profile_name="kehu",local_vpc_id=bnb_tokyo_vpc_id)
+print(security_id)
+# bnb_tokyo_vpc_id = 'vpc-08281e6c'
 # dae_tokyo_vpc_id = ''
 # host = {'web1':{'HostName':'Web1','ip':'1.11','GroupId':office_security_group_id,'SubnetId':web_a,'instancetype':'m4.xlarge'},
 #         'web2':{'HostName':'Web2','ip':'2.11','GroupId':office_security_group_id,'SubnetId':web_c,'instancetype':'m4.xlarge'},
@@ -141,7 +147,7 @@ bnb_tokyo_vpc_id = 'vpc-08281e6c'
 # create_instances('daeInnerhttp1','10.1.10.140',dae_private_security_group_id,dae_mbx_a,'t2.medium',disk_size=1024,profile_name="kehu")
 # create_instances.create_instances('daeInnerhttp2','10.1.11.140',security_group.dae_private_security_group_id,subnet.dae_mbx_a,'t2.medium',disk_size=1024,profile_name="kehu")
 # create_instances.create_instances('bnbEsServer1','172.16.17.10', security_group.bnb_office_security_group_id, subnet.bnb_es_server_a,'r4.2xlarge', ami=local_ami.centos7_ami, disk_size=8096)
-create_instances.create_instances('bnbEsServer2','172.16.18.10', security_group.bnb_office_security_group_id, subnet.bnb_es_server_c,'r4.2xlarge', ami=local_ami.esserver_ami, disk_size=8096)
-create_instances.create_instances('bnbEsServer3','172.16.17.11', security_group.bnb_office_security_group_id, subnet.bnb_es_server_a,'r4.2xlarge', ami=local_ami.esserver_ami, disk_size=8096)
-create_instances.create_instances('bnbEsServer4','172.16.18.11', security_group.bnb_office_security_group_id, subnet.bnb_es_server_c,'r4.2xlarge', ami=local_ami.esserver_ami, disk_size=8096)
-create_instances.create_instances('bnbEsServer5','172.16.17.12', security_group.bnb_office_security_group_id, subnet.bnb_es_server_a,'r4.2xlarge', ami=local_ami.esserver_ami, disk_size=8096)
+# create_instances.create_instances('bnbEsServer2','172.16.18.10', security_group.bnb_office_security_group_id, subnet.bnb_es_server_c,'r4.2xlarge', ami=local_ami.esserver_ami, disk_size=8096)
+# create_instances.create_instances('bnbEsServer3','172.16.17.11', security_group.bnb_office_security_group_id, subnet.bnb_es_server_a,'r4.2xlarge', ami=local_ami.esserver_ami, disk_size=8096)
+# create_instances.create_instances('bnbEsServer4','172.16.18.11', security_group.bnb_office_security_group_id, subnet.bnb_es_server_c,'r4.2xlarge', ami=local_ami.esserver_ami, disk_size=8096)
+# create_instances.create_instances('bnbEsServer5','172.16.17.12', security_group.bnb_office_security_group_id, subnet.bnb_es_server_a,'r4.2xlarge', ami=local_ami.esserver_ami, disk_size=8096)
