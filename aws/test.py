@@ -5,7 +5,7 @@ from botocore.exceptions import ClientError
 vpc_id = check_vpc.local_vpc()
 
 def check_Subnets(args):
-    session = boto3.Session(profile_name='kehu')
+    session = boto3.Session(profile_name='default')
     client = session.client('ec2')
     response = client.describe_subnets(
         Filters=[
