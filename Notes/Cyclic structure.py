@@ -40,3 +40,39 @@ for i in range(0,10):
     if i == 3:
         continue
     print("cotinue:",i)
+
+# 求素数
+a = 6
+c = 5
+for i in range(2,a):
+    print("i:",i)
+    print("c:",c)
+    if a % i == 0:
+        print("break:")
+        break
+    c += 1
+
+if c < a - 2:
+    print("no")
+else:
+    print("yes:")
+
+# 循环结构中 else 子句判断循环是否提前退出，如果提前退出了，else子句不执行，如果没有提前退出，执行else子句。
+a = 5
+for i in range(2,a):
+    if a % i == 0:
+        break
+else:
+    print("yes")
+
+is_break = False
+for i in range(0,10):
+    for x in range(0,10):
+        if x >= 4:
+            is_break = True
+            break
+        print('x: {0}'.format(x))
+    else:
+        print("i: {0}".format(i))
+    if is_break:
+        break
