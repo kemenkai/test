@@ -1,0 +1,383 @@
+第六课  详解类型、变量与对象
+
+
+什么是类型(Type)
+	又名数据类型(Data Type)
+		A data type is a homogeneous collection of values, effectively persented, equipped with a set of operations which maniplate these values.
+		性质相同的值的集合，数据类型配备了一系列专门针对这类值的操作
+		
+		是数据在内存中存储时的"型号"
+		小内存容纳大尺寸数据会丢失精确度，发生错误
+		大内存容纳小尺寸数据会导致浪费
+		编程语言的数据类型与数据的数据类型不完全相同
+	强类型语言与弱类型语言的比较
+		C语言示例: if条件
+		JacaScript示例: 动态类型
+		C#语言是强类型语言， dynamic: 对弱类型/动态类型的模仿
+			强类型语言，数据受限于，数据类型z
+		int 是32个比特位，4个字节
+		long 是64个比特位，8个字节
+		float 是32个比特位，4个字节，7个小数位
+		double 是64个比特位，8个字节，15-16个小数位
+		
+		int x;
+		x = 100;
+		long y;
+		y = 100L;
+		x = 100L; (错误，标准整数型，无法存放长整型，受限于数据类型)
+		
+		
+		bool b;
+		b = true;
+		b = 100; (错误，无法转换整数为bool的值，强类型的好处)
+		
+		int x = 100;
+		if(x==200){
+			Console.Writeline("It's ok.")
+		}
+		
+		
+		C#模仿弱类型语言,dynamic
+		dynamic myVar = 100;
+		Console.Writeline("myVar");
+		myVar = "Mr. Okay!";
+		Console.Writeline(myVar);
+		
+类型在C#语言中的作用
+	一个C#类型中所包含的信息有：
+		存储此类型变量所需的内存空间大小
+		此类型的值可表示的最大、最小值范围
+			MSDN文档查看数据类型对应内存的表，
+				Visual Basic and Visual C#
+					Visual C#
+						C# Reference
+							c# Keywords
+								Types(C# Reference)
+									Value Types(C# Reference)
+										Integral types : 整数类型组
+										Floating-point types : 浮点数类型组
+			
+		此类型所包含的成员(如方法、属性、事件等)
+		此类型由何基类派生而来
+			静态用处
+				一个程序没有执行的时候，就是静态时期
+				写代码的时候，编译器编译的时候
+				编辑期，编译期
+				静态的分析代码
+				编译器编译的时候知道数据类型包含的类型，可以在编译的时候报错，不会到后期出问题的时候再来改BUG
+				
+			动态用处
+				一个程序运行起来的时候，就是动态时期
+				执行起来了，调试的时候，运行的时候
+				动态的调试程序
+				
+				引用 System.Windows.Forms
+				Type myType = typeof(Form);
+				Console.Writeline(myType);
+				Console.Writeline(myType.FullName);
+				Console.Writeline(myType.BaseType.FullName);
+				Console.Writeline(myType.BaseType.BaseType.FullName);
+				
+				打印出所有属性
+				PropertyInfo[] pInfos = myType.GetProperties();
+				foreach(var p in pInfos){
+					Console.Writeline(p.Name);
+				}
+				
+				打印出所有方法，包括隐藏方法
+				MethodInfo[] mInfos = myType.GetMethods();
+				foreach(var m in mInfos){
+					Console.Writeline(m.Name);
+				}
+				
+		程序运行的时候，此类型的变量在分配在内存的什么位置
+			难，也有意思
+			程序从静态到动态，也是从硬盘装载到内存中了
+			程序转载到内存中之后，分为两个区域运行
+				1、Stack 栈
+				2、Heap 堆
+			
+			Stack简介
+				是给方法调用的地方，也是函数调用
+				栈比较小，一般只有1mb-2mb，但是快
+				比较小，容易爆掉
+					1、算法没写好
+					2、函数调用太多了
+					3、写的程序有错误，在栈上分配了太多的内存，爆了
+			Stack voerflow：栈溢出
+				也是著名网站，解答很多计算机问题
+			Heap简介
+				存储对象(实例)的地方，对象(实例)就是放在堆里面
+				堆比较大，能达到几个G，所以能放很多的对象
+				大了，容易忘记回收对象
+					1、分配了很多对象，但是忘记回收，浪费内存
+						学名：内存泄漏
+				
+			使用Performance Montor查看进程的堆内存使用量
+				运行 --> perfmon --> 添加需要查看的进程
+				
+			关于内存泄漏
+				1、C++ 如果没有回收对象，就一定会内存泄漏
+				2、C# 有垃圾收集器的机制，不用手动回收对象，或手动释放内存，会自动收回
+			
+			Stack(栈) 爆掉示例
+			 
+			 递归方法
+			 class BacGuy{
+				public void BadMethod(){
+					int x = 100;
+					this.BadMethod();
+				}
+			 }
+			 
+			 BacGuy bg = new BacGuy();
+			 bg.BadMethod();
+			 
+			 直接调用栈的方法，明确在内存中切出一块内存
+			 C# 使用指针的话，一定要在类上面申明 "unsafe",明确的告诉自己，我在写不安全的代码
+				使用unsafe 还要再Build设置中，设置允许unsafe
+					PROJECT --> StackOverflow Pr --> Build
+			 方法一、
+			 staic unsafe void Main(string[] args){
+				int * p = stackalloc int[9999999];
+			 }
+			 
+			 方法二、
+			 staic void Main(string[] args){
+				unsafe{
+					int * p = stackalloc int[9999999];
+				}
+			 }
+			 
+			Heap(堆)示例
+				WPF程序
+				HeapSample
+				
+			放置 Button 2个
+				Button1: 用循环，方式很多对象(实例)到内存中
+					Content: Consume Heap Memory
+					Event: Click
+					List<Window> winList;
+					
+					private void Button1_Click(object sender. RoutedEventArgs e){
+						winList = new List<Window>();
+						for (int i = 0; i < 15000; i++){
+							Window w = new Window();
+							winList.Add(w);
+						}
+					}
+					
+				Button2：清空，列表中的对象(实例)，实例没有实例化了，那么垃圾收集器，会在合适的时间，回收内存
+					Content: Release Heap Memory
+					Event: Clik
+					List<Window> winList;
+					
+					private void Button2_Click(object sender. RoutedEventArgs e){
+						winList.Clear();
+					}
+			
+			Process: 进程
+				一个程序从硬盘加载到内存开始执行之后就形成一个进程
+					换句话说：这个程序的一个正在运行的实例
+					
+			
+		此类型所允许的操作(运算)
+			double知道自己的除法是可以做小数除法的，能够精确到小数后15-16位
+			double result = 3.0 / 4.0;
+			Console.Writeline(result);
+			
+			3 / 4,得到0，对于整数类型来说，做的是整除
+			
+		
+
+		
+C#语言的类型系统
+	C# 的五大数据类型
+		类(Class) : 如Windows, Form, Console, String
+			示例：查看类的类型，From就是一个类，类型的示例
+				Form --> F1
+				Type myType = typeof(Form);
+				Console.Writeline(myType.FullName);
+				Console.Writeline(mytype.IsClass);
+				Form --> 选中 --> F12
+		
+		结构体(Structures) : 如Int32, Int64, Single, Double
+			
+		枚举(Enumerations) : 如HorizontalAlignment, Visibility
+			给你一个集合，只能在集合中选择一个值，不能随便选择值
+			
+			Form f = new Form();
+			f.WindowState = FormWindoState.Minimized; 最小化显示
+			f.ShowDialog();
+		
+		接口(Interfaces)
+			
+		
+		委托(Delegates)
+		
+		
+	C# 类型的派生谱系
+		
+		Object
+			引用类型(Reference Type)
+				类
+					第一组类型
+					真正的数据类型，现成的数据类型，这些数据类型都是特别常用的数据类型，这些数据类型都是基本数据类型
+						object
+						string
+					关键字, 定义数据类型的
+						class
+						interface
+						delegate
+
+				接口
+				委托
+			值类型(Value Type)
+				结构体
+				枚举
+										
+					第二组类型
+					真正的数据类型
+						bool
+							布尔类型的值
+							true
+							false
+							
+						byte
+						char
+						decimal
+						double
+						float
+						int
+						long
+						sbyte
+						short
+						uint
+						ulong
+						ushtort
+					关键字，定义数据类型的
+						struct
+						enum
+						
+			第三组类型
+					true
+					false
+					------
+					void
+					null
+					------
+					var
+					dynamic
+					
+变量、对象与内存
+	什么是变量
+		变量 = 以变量名所对应的内存地址为起点、以其数据类型所要求的存储空间为长度的一块内存区域
+	
+		表面上来看(从c# 代码的上下文行文上来看)，变量的用途是存储数据
+		实际上，变量表示了存储位置，并且每个变量都有一个类型，以决定什么样的值能够存入变量
+			变量表示了存储位置：
+				变量名表示(对应着)变量的值在内存中的存储位置
+			并且每个变量都有一个类型，以决定什么样的值能够存入变量
+				什么一个指定类型的变量，然后这个变量是内存中一个地址的标签
+				只有指定类型的值，才能保存到同类型的变量里面
+				
+		变量一共有7种
+			静态变量，实例变量(成员变量，字段)，数组元素，值参数，引用参数，输出形参，局部变量
+			
+				class Student{
+					public static int Amount;
+					public int Age;
+					public string name;
+					public double Add(double a, double b){
+						return a + b;
+					}
+				}
+				静态变量: 属于类的就是静态成员变量，不是属于实例的
+					Student.Amount;
+					
+				实例变量： 实例化之后的，实例的变量
+					Student.stu = new Student();
+					stu.Age = 1;
+					stu.name = 2;
+				
+				数组元素：一个类型后面加一个方括号，就代表是一个数组。new int[100],代表创建一个长度为100的数字。
+							每个int为4个字节，然后100的长度，就要分配出400个字节。
+					int[] array = new int[100];
+					array[0];
+					
+				值参数，引用参数，输出形参：
+					函数体或方法或算法，定义的时候，小括号里面的变量成为值参数变量
+					public double Add(double a, double b){}
+					public double Add(ref double a, double b)  在变量前面加ref，就变成了引用参数变量
+					public double Add(out double a, double b)  在变量前面加out, 就变成了输出参数变量
+					
+				局部变量：平时用的最多的变量
+					在函数体里面什么的变量
+					int x;
+					x = 1;
+					
+				
+			
+		狭义的变量指局部变量，因为其它种类的变量都有自己的约定名称
+			简单的讲，局部变量就是方法体(函数体)里声明的变量
+		变量的声明
+			有效的修饰符组合(opt)，类型，变量名，初始化器(opt)
+				opt: 代表可有可无的
+			
+			声明，告诉编译器，我在代码中需要这样的一个变量，你要认识它，这有一个这样的变量
+			int a;
+			public static ： 有效的修饰符组合
+			int : 变量的类型
+			a : 变量的名字
+			= 100: 初始化器，等号加一个值，建议声明的时候，跟上初始化器
+			public static int a = 100;
+			
+		值类型的变量
+			以byte/sbyte/short/ushort为例,演示值类型的变量在内存中如何存储的
+			值类型没有实例，所谓的"实例"与变量合二为一
+		引用类型的变量与实例
+			引用类型变量与实例的关系：引用类型变量里存储的数据是对象的内存地址
+		局部变量是在stack上分配内存
+			int a;
+			Student stu;
+		变量的默认值
+			成员变量在未赋值状态下，也有默认值
+			成员变量的默认值是0，在内存中是以全部为0，设为默认值
+			
+			本地变量，必须要有显示的值，没有默认值
+		常量(值不可改变的变量)
+			const： 这只变量为常量
+			初始化常量的时候，必须赋值
+		装箱与拆箱( Boxing & Unboxing)
+			int x = 100;
+			装箱:  object obj = x;		obj是引用类型
+				把栈上的值类型的值，封装成object类型的实例，放到堆上
+			拆箱: int y = (int)obj;
+				把堆上面object类型的实例里面的值，按照我们的要求拆成我的目标类型，存储到我的栈上
+				
+			装箱和拆箱，都会损耗很多性能
+
+
+作业：
+ 1、推断整型变量在内存中如何存储的
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,204 @@
+第八课，第九课：方法的定义、调用与调试(上，下)
+
+方法的由来
+	方法(method) 的前身是 c/c++ 语言的函数(function)
+		方法是面向对象范畴的概念，在非面向对象语言中仍然称为函数
+		使用 c/c++ 语言做对比
+	永远都是类(或结构体)的成员
+		c#语言中函数不可能独立于类(或结构体)之外
+		只有作为类(结构体)的成员时才被称为方法
+		c++中时可以的，称为"全局函数"
+	是类(或结构体)最基本的成员之一
+		最基本的成员只有两个————字段与方法(成员变量与成员函数)，本质还是数据+算法
+		方法表示类(或结构体)"能做什么事情"
+	为什么需要方法和函数
+		目的1：隐藏复杂的逻辑
+		目的2：把大算法分解为小算法
+		目的3：复用(reuse，重用)
+		示例：计算圆面积、圆柱体积、圆锥体积
+方法的定义(声明)与调用
+	声明方法的语法详解
+		参见 C# 语言文档(声明/定义不分家)
+		Parameter 全称为"formal parameter"
+		形式上的参数，简称"形参"
+		Parameter是一种变量
+	为方的命名规范
+		大小写规范
+		需要以动词或者动词短语作为名字
+	重温静态(static)方法和实例方法
+		下面示例5
+	调用方法
+		调用方法：方法名后面跟上一对小括号
+			小括号: 不能省略，方法调用操作符
+				小括号中写入实际参数，实参，Argument
+		Argument中文C#文档的官方译法为"实际参数", 简称"实参"，可理解为调用方法时的真实条件
+		调用方法时的 argument 列表要与定义方法时的 parameter 列表相匹配
+			C# 是强类型语言，argument 是值、parameter 是变量, 值与变量一定要匹配，不然编译器会报错
+构造器(一种特殊的方法)
+	构造器(constructor)是类型的成员之一
+	狭义的构造器指的是"实例构造器"(instance constructor)
+	如何调用构造器
+	声明构造器
+	构造器的内存原理
+方法的重载(Overload)
+如何对方法进行Debug
+方法的调用与栈*
+
+
+
+示例1：C语言中的函数
+	name: CFun
+	Project: Empty Project
+	source_file: source.c
+	content:
+		#include <stdio.h> // 标准输入输出引入
+		
+		//Function fun
+		double Add(double a, double b){
+			return a + b;
+		}
+		
+		int main(){
+			printf("Hello,World!")
+			double x = 1.0;
+			double y = 5.0;
+			double result = Add(x,y);
+			printf("%f+%f=%f",x,y,result)
+		}
+		
+示例2：C++语言中的函数，C++是对C语言的一个扩展，在这个扩展当中，C++语言完整保留了C语言所有的语言
+	name: CppFun
+	Project: Empty Project
+	source_file: source.cpp
+	content:
+		#include <iostream>
+		
+		double Add(double a, double b){
+			return a + b;
+		}
+		
+		int main(){
+			std::cout << "Hello,World!!";
+			double x = 3.0;
+			double y = 5.0;
+			double result = Add(x,y);
+			std::cout << x << "+" << y << "=" << result;
+			return 0;
+		}
+		
+示例3：C++ 语言函数变成方法的示例
+	项目 --> 添加一个类文件 --> class name: student
+		会自动生成两个文件
+		student.h: 头文件，是对这个类的声明
+		student.cpp: C++源文件，是对这个类的定义
+	
+	student.h:
+		#pragma once
+		class Student{
+			public:
+				Student();
+				~Student();
+				void SayHello();
+				double Add(double a, double b);
+				
+		}
+	student.cpp:
+		#include "Student.h"
+		#include <iostream>
+		
+		Student::Student(){
+		}
+		
+		Student::~Student(){
+		}
+		
+		void Student::SayHello(){
+			std::cout << "Hello! I'm a Student."
+		}
+		
+		double Student::Add(double a, double b){
+			return a + b;
+		}
+		
+	source.cpp:
+		// 标准库用尖括号引入
+		#include <iostream>
+		// 自己定义的头文件用引号引起来
+		#include "Student.h"
+		
+		double Add(double a, double b){
+			return a + b;
+		}
+		
+		int main(){
+			// *声明一个指针，
+			Student *pStu1 = new Student();
+			pStu->SayHello();
+			
+			double x = 3.0;
+			double y = 5.0;
+			double result = pStu->Add(x,y);
+			std::cout << x << "+" << y << "=" << result;
+			return 0;
+		}
+		
+示例4：C# 方法的演示，演示需要方法的三个目的
+			从大到小的分解方法是，自顶向下逐步求精的算法，标准的面向过程的方法
+	name: CSharpFun
+	Project: Console Application
+	content:
+		目的：复用,分解
+			Calculator c = new Calculator();
+			Console.Wirteline(c.GetCircleArea(10));
+		
+			class Calculator{
+				public double GetCircleArea(double r){
+					return Math.PI * r * r;
+				}
+				
+				public double GetCylinderVolume(double r, double h){
+					return GetCircleArea(r) * h;
+				}
+				
+				public double GetConeVolume(double r, double h){
+					result GetCylinderVolume(r,h) / 3;
+				}
+			}
+			
+			
+示例5：C# Staic 方法重温
+	name: CSharpFun
+	Project: Console Application
+	content:
+		目的：复用,分解
+		
+			Calculator c = new Calculator();
+			Console.Wirteline(c.GetCircleArea(10));
+			
+			实例方法的时候，是将Calculator实例化(new)之后使用
+			静态方式将是类自己的方法
+			Console.Wirteline(Calculator.GetCircleArea(100))
+		
+			class Calculator{
+				public static double GetCircleArea(double r){
+					return Math.PI * r * r;
+				}
+				
+				public static double GetCylinderVolume(double r, double h){
+					return GetCircleArea(r) * h;
+				}
+				
+				public static double GetConeVolume(double r, double h){
+					result GetCylinderVolume(r,h) / 3;
+				}
+			}
+			
+			
+			
+		
+
+
+
+
+
+
