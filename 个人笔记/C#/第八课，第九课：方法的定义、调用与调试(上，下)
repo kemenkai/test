@@ -38,12 +38,33 @@
 	构造器(constructor)是类型的成员之一
 	狭义的构造器指的是"实例构造器"(instance constructor)
 	如何调用构造器
+		示例6,示例7
 	声明构造器
+		示例6,示例7
 	构造器的内存原理
+		栈的地址是，高的地址先分配，往低的地址慢慢分配，直到最低的，最后就栈溢出了
 方法的重载(Overload)
+	调用重载方法的示例
+		示例8
+	声明带有重载的方法
+		方法签名(method signature)由方法的名称、类型形参的个数和它的每一个形参(从左到右的顺序)的类型和种类(值、引用或输出)组成。注：方法签名不包含返回类型
+		实例构造函数签名由它的每一个形参(按从左到右的顺序)的类型和种类(值、引用或输出)组成。
+		重载决策(到底调用哪一个重载)：用于在给定了参数列表和一组候选函数成员的情况下，选择一个最佳函数成员来实施调用。
+			示例8
 如何对方法进行Debug
+	设置断点(breakpoint)
+	观察方法调用时的call stack
+	Step-in, Step-over,Step-out
+	观察局部变量的值与变化
 方法的调用与栈*
+	方法调用时栈内存的分配
+		对 stack frame 的分析
+			stack frame : 一个方法在被调用的时候，它在栈内存当中的布局
 
+
+作业：
+	理解并熟记所有概念
+	完成视频中的实例，直至能够默写
 
 
 示例1：C语言中的函数
@@ -195,10 +216,73 @@
 			
 			
 			
+实例6: 构造器的调用，与没有初始值的构造器
+	Student stu = new Student();
+	Console.Wirteline(stu.ID)
+	Console.Wirteline(stu.Name)
+
+	Class Student{
+		public Student(){
+			this.ID = 1;
+			this.Name = "No name";
+		}
+		public int ID;
+		public string Name;
+	}
+	
+实例7：有初始值的构造器
+	Student stu = new Student(2,"Mr.OKay");
+	Console.Wirteline(stu.ID);
+	Console.Wirteline(stu.Name);
+	Console.Wirteline("================================");
+	Student stu2 = new Student();
+	Console.Wirteline(stu2.ID);
+	Console.Wirteline(stu2.Name);
+
+	Class Student{
+		public Student(int initId,string initName){
+			this.ID = initID;
+			this.Name = initName;
+		}
 		
+		public Student(){
+			this.ID = 1;
+			this.Name = "No Name";
+		}
+		public int ID;
+		public string Name;
+	}
 
-
-
+示例8： 方法的重载
+	
+	Calculator c = new Calculator();
+	# 输入的值是什么，默认会调用匹配的重载
+	int x = c.Add(100,100);
+	Console.Wirteline(x)
+	
+	class Calculator{
+		public int Add(int a, int b){
+			return a + b;
+		}
+		
+		#参数的参数变化
+		public int Add(int a, int b, int c){
+			return a + b + c;
+		}
+		
+		#参数列表的变化
+		public double Add(double x, double y){
+			return x + y;
+		}
+		
+		# 参数的种类变化
+		public int Add(ref int a, int b){
+			return a + b;
+		}
+		public int Add(out int a, int b){
+			return a + b;
+		}
+	}
 
 
 

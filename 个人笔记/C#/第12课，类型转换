@@ -1,0 +1,87 @@
+类型转换
+	隐式(implicit)类型转换
+		解释：不用明确的告诉编译器，你把这个值转换成另外的类型
+			不丢失精度的转换
+				示例2
+			子类向父类的转换
+				子类向父类转换之后的方法不能访问子类的方法，只能访问符类的，及继承下来的方法。
+				示例3
+			装箱
+	显示(explicit)类型转换
+		解释：显示的告诉编译器，把这个类型的值，转换成，另外一个类型
+		有可能丢失精度(甚至发生错误)的转换，即cast
+			示例4
+		拆箱
+		使用Convert类
+		ToString方法与各数据类型的Parse/Tryparse方法
+	自定义类型转换操作符
+		显示转换类型操作符，就是目标类型的一个实例构造器，但是这个构造器，是卸载被转换的类型里面
+		示例5
+		
+		
+示例1：经典数据类型转换场景
+	string str1 = Console.ReadLine();
+	string str2 = Console.ReadLine();
+	int x = Convert.ToInt32(str1);
+	int y = Convert.ToInt32(str2);
+	Console.Writline(x + y);
+	
+示例2：不丢失精度的转换
+	int x = int.MaxValue;
+	long y = x;
+	Console.Writline(y);
+	
+示例3：子类向父类的转换
+
+	class Program{
+		static void Main(string[] args){
+			Tercher t = new Tercher();
+			Human h = t;
+			Animal a = h;
+		}
+	}
+
+	class Animal{
+		public void Eat(){
+			Console.Writline("Eating...");
+		}
+	}
+	
+	class Human : Animal{
+		public void Think(){
+			Console.Writline("Who I am?");
+		}
+	}
+	
+	class Tercher : Human {
+		public void Teach(){
+			Console.Writline("I teach programming.");
+		}
+	}
+	
+示例4：有可能丢失精度(甚至发生错误)的转换，即cast
+	Console.Writline(ushort.MaxValue);
+	uint x = 65536;
+	ushort y = (ushort)x;
+	
+示例5：自定义类型转换操作符
+
+	Stone stone = new Stone();
+	m.Age = 5000;
+	Monkey wukongSun = (Monkey)stone;
+	Console.Writline(wukongSun);
+
+
+	// 显示类型转换使用 explicit, 隐式类型转换使用 implicit
+	class Stone{
+		public int Age;
+		
+		public static explicit operator Monkey(Stone stone){
+			Monkey m = new Monkey();
+			m.Age = stone.Age / 500;
+		}
+	}
+	
+	class Monkey{
+		public int Age;
+	}

@@ -1,0 +1,14 @@
+#!/bin/bash
+##beifen sql
+
+Bakdir=/opt/data_back/smy
+Time=$(date +"%F_%T")
+[ -f /usr/bin/mysqldump ] && echo "ok" || exit
+# /usr/bin/mysqldump -uknroot -p123456 -R --all-databases > $Bakdir/$Time"_34.sql"
+#/usr/bin/mysqldump -h192.168.172.92 -uknroot -pknroot123 --all-databases > $Bakdir/"pms_prod_"$Time".sql"
+/usr/bin/mysqldump -h4.223 -uroot -phiskn123 --databases psychtest_bak --ignore-table=psychtest_bak.public_apilog > $Bakdir/"smy_prod_"$Time".sql"
+echo $Bakdir/"smy_prod_"$Time".sql"
+/usr/bin/mysqldump -h4.223 -uroot -phiskn123 --databases psychtest_bak_sx --ignore-table=psychtest_bak_sx.public_apilog > $Bakdir/"smy_prod_sx_"$Time".sql"
+echo $Bakdir/"smy_prod_sx_"$Time".sql"
+/usr/bin/mysqldump -h4.223 -uroot -phiskn123 --databases psychtz --ignore-table=psychtz.public_apilog > $Bakdir/"smy_psychtz_"$Time".sql"
+echo $Bakdir/"smy_psychtz_"$Time".sql"

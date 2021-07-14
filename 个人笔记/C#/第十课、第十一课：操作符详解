@@ -1,0 +1,578 @@
+第十课、第十一课  操作符详解
+
+操作符概览
+	操作符(Operator)也译为"运算符"
+	操作符时用来操作数据的，被操作符操作的数据称为操作数(Operand)
+操作符的本质
+	操作符的本质时函数(即算法)的"简记法"
+		假如没有发明"+"、只有Add函数，算式3+4+5将可以写成Add(Add(3,4),5)
+		假如没有发明"×"、只有Mul函数，那么算式3+4×5将只能写成Add(3,Mul(4,5)),注：注意优先级
+	操作符不能脱离与它关联的数据类型
+		可以说操作符就是与固定数据类型相关联的一套基本算法的简记法
+			int x = 5;
+			int y = 4;
+			int z = x / y;
+				这个除号是整数类型的除号
+			
+			double x = 5.0;
+			double y = 4.0;
+			double z = x / y;
+			这个除号是浮点数类型的除号
+			虽然除号看起来一样，但是，是完全不同的两个除号，是属于不同数据类型的
+			
+		示例：为自定义数据类型创建操作符
+			实例1
+操作符的优先级
+	可以使用园括号提高被括起来表达式的优先级
+	园括号可以嵌套
+	不像数学里有方括号和花括号，在C#语言里"[]"与"{}"有专门的用途
+同级操作符的运算顺序
+	除了带有赋值功能的操作符，同优先级操作符都是由左向右进行运算
+	带有赋值功能的操作符的运算是由右向左
+		示例：如何理解是由右向左
+			示例2
+	与数学运算不同，计算机语言的同优先级运算没有"结合率"
+		3+4+5只能理解为Add(Add(3,4),5) 不能理解为 Add(3,Add(4,5))
+各类操作符的示例
+	基本操作符: x.y f(x) a[x] x++ x-- new typeof default checked unchecked delegate sizof ->
+	一元操作符：+ - ! ~ ++x --x (T)x await &x *x
+	乘法操作符: * / %
+	加法操作符: + -
+	移位操作符: << >>
+	关系和类型检测: < > <= >= is as
+	相等操作符: == !=
+	逻辑"与": &
+	逻辑XOR：^
+	逻辑OR: |
+	条件AND: &&
+	条件OR: ||
+	null合并: ??
+	条件: ?:
+	赋值和lambda表达式: = *= %= += -= <<= >>= &= ^= |= =>
+	
+	基本操作符
+		"." ： 成员操作符
+			访问外层名称空间的，子集名称空间
+				System.IO
+			访问名称空间当中的类型
+				System.IO.File
+			访问类型的静态成员
+				System.IO.File.Create("D:\\Hello_Wrole.txt");
+			访问对象的成员
+				Form myForm = new Form();
+				myForm.Text = "HelloWorld";
+			访问方法
+				myForm.showDialog();
+				
+		"f(x)" : 方法调用操作符，就是方法后面的园括号
+			示例3
+		
+		"a[x]" : 方括号，访问集合当中的元素
+			访问数组的元素，字典中的元素
+			示例4
+		
+		"x++, x--": 后置的自增，后置的自减
+			 示例5
+		
+		"typeof, default":
+			typeof: 用于查看一个类型的内部结构
+				类型的内部结构式，语术叫: MetaData, 元数据
+					包含数据类型的基本信息
+			default: 获取一个类型的默认值
+				结构体类型
+				引用类型
+				枚举类型
+			
+			示例6
+			
+		"new, var": 
+			new: 帮助我们在内存当中创建一个实例，并且立刻调用这个实例的，实例构造器
+			var: 帮我们申明隐式类型的变量
+				隐式类型的变量，C# 是强类型语言，每个变量都要有自己的数据类型
+				显示： int x, 在申明这个变量的时候，明显的告诉编译器这个变量是什么类型的
+				隐式： var x, 告编译器，我现在需要一个x的变量，它的类型还不知道，你帮我去推断
+						在赋值的时候，自己推断
+				示例7
+				
+		"checked, unchecked": 用来检查一个值，在内存当中是否有溢出
+			示例8
+		
+		"delegate": 一般不用来当操作符使用，最主要是用来申明委托的数据类型
+			示例9
+		
+		"sizeof": 获取一个对象在内存当中所占字节数的尺寸
+			注意1： sizeof, 只能获取基本数据类型，他们的实例在内存当中所占的字节数
+				除了string, operlakt
+				sizeof，只能获取结构体数据类型的
+			注意2：在非默认的情况下，可以使用sizeof去获取自定义的，结构体类型的实例，需要放在不安全的上下文当中
+			示例10
+			
+		"->": 箭头符号，直接访问指针的操作符
+			示例11
+			
+	一元操作符
+		只有一个操作符就能组成表达式，所以称为一元操作符
+		"&x, *x": 平时不常用，需要不安全的上下文
+			&x: 取地址操作符
+			*x: 引用操作符
+			示例12
+		
+		"+,-,!,~": 正，负，非，反
+			示例13
+			
+		"++x, --x, x++ x--": 前置自增，前置自减，后置自增，后置自减
+			前置自增或自减，看到自己左边是赋值操作符的时候，会先计算，将结果赋值给变量
+			后置自增或自减，看到自己左边是赋值操作符的时候，会先将自身的值赋值给变量，然后再计算
+			示例14
+			
+		"(T)x": 强制类型转换操作符
+		
+		"*, /"
+			乘法，除法，会有数值类型提升，会把数值类型提升到不损失精度的类型
+				整数类型与浮点数类型相乘，会变成浮点数
+			
+		"%": 取余
+			也会有数值类型提升
+			
+		"+, -": 加减法
+		
+		"<<, >>": 移位运算符
+			数据在内存当中的，二进制的结构，向左或向右进行一定位数的平移
+			示例15
+			
+		"<, >, >=, <=, ==, !=": 关系运算符
+		
+		"is, as": 关系运算符2
+			is, 是否相等
+			Techer t = new Techer();
+			var result = t is Techer;
+			object o = new Techer();
+			if (o is Techer){
+				Techer t = (Techer)o;
+				t.Teach();
+			}
+			
+			as, 比较是否一样，否者就将null值赋值
+			object o = new Techer();
+			if (o as Techer){
+				Techer t = (Techer)o;
+				t.Teach();
+			}
+			
+		"&,  |, ^": 按位求与, 按位求或, 安慰异或
+			按位与或非，都是在操作二进制值的时候才用
+			int x = 7;
+			int y = 28;
+			int z = x & y;
+			
+		"&&, ||": 条件与，条件或
+			
+		"??, ?": null合并操作符, Null操作符
+			int? x = null;
+			int y = x ?? 1;
+			
+		"?:" 条件操作符
+			if else的简写
+			int x = 80;
+			string str = (x >= 60) ? "Pass":"Failed";
+			
+		"=, *=, /=, %=, +=, -=, <<=, >>=, &=, ^=, |=, =>": 赋值和lambda表达式
+			int x = 5;
+			x+=1;
+			
+
+示例1：为自定义数据类型创建操作符
+			Person persion1 = new Person();
+			Person persion2 = new Person();
+			persion1.Name = "Deer";
+			persion2.Name = "Deer wife";
+			List<Person> nation = persion1 + persion2;
+			foreach (var p in nation){
+				Console.WriteLine(p.Name);
+			}
+			
+			class Person{
+				public string Name;
+				
+				# 老的方法
+				public static List<Person>GetMarry(Person p1,Person p2){
+					List<Person>people = new List<Person>();
+					people.Add(p1);
+					people.Add(p2);
+					for (int i = 0; i < 11; i++){
+						Person child = new Person();
+						child.Name = p1.Name + "&" + p2.Name + "s child";
+						people.Add(child);
+					}
+					return people;
+				}
+				
+				# 简记法
+				public static List<Person> Operator +(Person p1,Person p2){
+					List<Person>people = new List<Person>();
+					people.Add(p1);
+					people.Add(p2);
+					for (int i = 0; i < 11; i++){
+						Person child = new Person();
+						child.Name = p1.Name + "&" + p2.Name + "s child";
+						people.Add(child);
+					}
+					return people;
+				}
+			}
+			
+			
+示例2：理解： 带有赋值功能的操作符的运算是由右向左
+
+	int x;
+	x = 3 + 4 + 5;
+	Console.WriteLine(x)
+	
+示例3: 方法调用操作符示例
+	Calculator c = new Calculator();
+	double x = c.Add(3.0,5.0);
+	Console.WriteLine(x);
+
+	class Calculator
+	{
+		public double Add(double a, double b)
+		{
+			return a + b;
+		}
+		
+		public void PrintHello()
+		{
+			Console.WriteLine("Hello");
+		}
+	}
+	
+	委托：c.PrintHello,没有跟方法调用操作符，只是把PrintHell委托给myAction管理
+	Action myAction = new Action(c.PrintHello);
+	
+示例4：方括号示例
+	int[] myIntArray = new int[10];
+		10代表告诉编译器，这个数组的长度是10，有10个元素，并且初始化成这个类型的默认值
+	int[] myIntArray = new int[]{1, 2, 3, 4, 5};
+		大括号是，初始化器
+	int[] myIntArray = now int[5]{1, 2, 3, 4, 5};
+		可以中括号和花括号一起使用，但是元素数量必须相同
+		
+	Console.WriteLine(myIntArry[0]);
+	Console.WriteLine(myIntArry.Length - 1);
+	
+	字典：
+	
+	Dictionary<string,Student> stuDic = new Dictionary<string, Student>();
+		尖括号代表是范型类，不是完整的类，需要别人帮忙
+	
+	for(int i = 1; i <= 100; i++)
+	{
+		Student stu = new Student();
+		stu.Name = 's_' + i.ToString();
+		sut.Score = 100;
+		stuDic.Add(stu.Name, stu);
+	}
+	
+	Student number6 = stuDic["s_6"];
+	Console.WriteLine(number6.Score);
+	
+	class Student
+	{
+		public string Name;
+		public int Score;
+	}
+	
+示例5： x++ x--
+	int x = 100;
+	x++;
+	x = x + 1;
+	Console.WriteLine(x);
+	
+	x--;
+	x = x - 1;
+	Console.WriteLine(x);
+	
+	int x = 100;
+	int y = x++;
+		自增或自减遇到赋值的时候，会先赋值给左边的变量，再自增自减
+	y = x;
+	x = x + 1;
+
+示例6： typeof, default
+
+	typeof:
+		Type t = typeof(int);
+		Console.WriteLine(t.Namespace);
+		Console.WriteLine(t.FullName);
+		Console.WriteLine(t.Name);
+		int c = t.GetMethods().Length;
+		foreach(var mi in t.GetMethods())
+		{
+			Console.WriteLine(mi.Name);
+			
+		}
+		Console.WriteLine(c);
+	
+	default:
+		结构体类型
+			int x = default(int);
+			Console.WriteLine(x);
+			
+		引用类型
+			Form myForm = default(Form);
+			Console.WriteLine(myForm==null);
+			
+		枚举类型
+			枚举类型申明的时候会跟整数值对应，第一个是0，谁是0谁就是默认的了
+			使用default获取枚举类型的默认值时与设计枚举类型的时候需要注意，一定要有0的默认值，否则在逻辑上就有错误。
+			Level level = default(Level);
+			Console.WriteLine(level);
+			enum Level
+			{
+				Low,
+				Mid,
+				High
+			}
+
+			enum Level
+			{
+				Low=1,
+				Mid=0,
+				High=2
+			}
+			
+示例7： new
+
+	new 操作符
+		Form myForm = new Form() {Text = "Hello", FormBorderStyle=FormBorderStyle.SizableToolWindow};
+			大括号是初始化器，New可以直接调用
+			可以立刻给这个实例的属性设置一个值，也就可以把下面的myForm.Text删除了
+		
+		myForm.Text = "Hello";
+		myFrom.ShowDialog();
+		
+		不需要new操作符的情况
+		int i = 1;
+		int[] myArray = {1, 2, 3, 4};
+		
+		为匿名类型创建对象
+			匿名类型
+				var person = new {Name="Mr.Okay", Age=34};
+			非匿名类型
+				Form myForm = new Form(){Text = "Hello"};
+			
+	new 关键字，修饰符
+		Student stu = new Student();
+		stu.Report();
+		CsStudent csStu = new CsStudent();
+		csStu.Report();
+		
+		class Student
+		{
+			public void Report()
+			{
+				Console.WriteLine("I'm a student.")
+			}
+		}
+		
+		class CsStudent: Student
+		{
+			# 子类对父类的方法进行隐藏，这个时候new 就成了修饰符
+			new public void Report()
+			{
+				Console.WriteLine("I'm CS student")
+			}
+		}
+	
+示例8：checked, unchecked
+	操作符
+		uint x = uint.MaxValue;
+		Console.WriteLine(x);
+		string binStr = Convert.ToString(x, 2);
+		Console.WriteLine(binStr);
+		uint y = x + 1;
+		Console.WriteLine(y);
+		uint y = checked(x + 1);
+		Console.WriteLine(y);
+		
+		try
+		{
+			uint y = checked(x + 1);
+			Console.WriteLine(y);
+		}
+		# 出现溢出错误的时候使用OverflowException
+		catch(OverflowException ex) 
+		{
+			Console.WriteLine("There's overflow")
+		}
+		
+	上下文
+		uint x = uint.MaxValue;
+		Console.WriteLine(x);
+		string binStr = Convert.ToString(x, 2);
+		Console.WriteLine(binStr);
+		uint y = x + 1;
+		Console.WriteLine(y);
+		uint y = checked(x + 1);
+		Console.WriteLine(y);
+		checked
+		{
+			try
+			{
+				uint y = checked(x + 1);
+				Console.WriteLine(y);
+			}
+			# 出现溢出错误的时候使用OverflowException
+			catch(OverflowException ex) 
+			{
+				Console.WriteLine("There's overflow")
+			}
+		}
+		
+示例9： delegate, WBF项目
+	<Grid>
+		<Grip.RowDefinitions>
+		<RowDefinition Height="Auto"/>
+		<RowDefinition Height="2"/>
+		<RowDefinition Height="Auto"/>
+		</Grip.RowDefinitions>
+		<TextBox x:Name="myTextBox" Grid.Row="0"/>
+		<Button x:Name="myButton"Content="Click Me!" Grid.Row="2"/>
+	</Grid>
+	
+	
+	InitializeComponent();
+	this.myButton.Click+= delegate(object sender, RoutedEventArges e)
+	{
+		this.myTextBox.Text="Hello World!";
+	};
+	
+	lamada表达式
+	this.myButton.Click+= (sender, e) =>
+	{
+		this.myTextBox.Text="Hello World!";
+	};
+	
+示例10：sizeof
+	int x = sizeof(int);
+	Console.WriteLine(x);
+	int x = sizeof(long);
+	Console.WriteLine(x);
+	int x = sizeof(ulong);
+	Console.WriteLine(x);
+	int x = sizeof(decimal);
+	Console.WriteLine(x);
+	
+	# 自定义数据类型
+	unsafe
+	{
+		int x = sizeof(Student);
+		Console.WriteLine(x);
+	}
+	
+	struct Student
+	{
+		int ID;
+		long Score;
+	}
+
+示例11：->
+	指针操作，取地址操作，用指针访问成员操作，只能用来操作结构体类型，不能操作引用类型
+	unsafe
+	{
+		Student stu;
+		stu.ID = 1;
+		stu.Score = 99;
+		Student* pStu = &stu;
+		# 点访问的时候，是直接访问，通过->指针访问的，都是间接访问
+		pStu->Score = 100;
+		Console.WriteLine(stu.Score)
+	}
+	
+	struct Student
+	{
+		public int ID;
+		public long Score;
+	}
+	
+示例12： &x, *x
+	unsafe
+	{
+		Student stu;
+		stu.ID = 1;
+		stu.Score = 99;
+		# &stu取出地址，交给pStu
+		Student* pStu = &stu;
+		# 点访问的时候，是直接访问，通过->指针访问的，都是间接访问
+		pStu->Score = 100;
+		(*pStu).Score = 1000;
+		Console.WriteLine(stu.Score)
+	}
+	
+	struct Student
+	{
+		public int ID;
+		public long Score;
+	}
+	
+示例13：+,-,!,~
+	+,-
+		在数学中一致的部分
+			int x = 100;
+			int y = +x;
+			Console.WriteLine(y);
+			
+			int x = 100;
+			int y = -x;
+			Console.WriteLine(y);
+			
+			int x = 100;
+			int y = -(-x);
+			Console.WriteLine(y);
+		在数学中不一致的部分
+			Console.WriteLine(int.MaxValue);
+			Console.WriteLine(int.MinValue);
+			
+			int x = int.MinValue;
+			int y = checked(-x);
+			Console.WriteLine(x);
+			Console.WriteLine(y);
+	~: 求反操作符, 将一个值在二进制级别上，按位取反
+		int x = 12345678;
+		int y = ~x;
+		Console.WriteLine(y);
+		
+		string xStr = Convert.ToString(x,2).PadLeft(32,"0");
+		string yStr = Convert.ToString(x,2).PadLeft(32,"0");
+		Console.WriteLine(xStr);
+		Console.WriteLine(yStr);
+		
+	!: 取非, 只能操作bool类型的值
+		bool b1 = true;
+		bool b2 = !b1;
+		
+		bool b1 = false;
+		bool b2 = !b1;
+		
+		class Student
+		{
+			public Student(string initName)
+			{
+				this.Name = initName;
+			}
+			public string Name;
+		}
+		
+示例14： --x, ++x
+	
+	int x = 100;
+	int y = x++
+	Console.WriteLine(y);
+		
+		
+示例15: <<, >>
+	
+	int x = 7;
+	int y = x << 1;
+	string strX = Convert.ToString(x, 2).PadLeft(32, "0");
+	string stry = Convert.ToString(y, 2).PadLeft(32, "0");
